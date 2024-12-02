@@ -7,6 +7,8 @@ import 'package:flutter_recycle_hub/src/screens/page/child_account_page/syarat_k
 import '../../widgets/custom_bottom_navbar.dart';
 
 class AccountPage extends StatelessWidget {
+  const AccountPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +19,7 @@ class AccountPage extends StatelessWidget {
           fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: const Color.fromARGB(255, 43, 75, 250),
+        backgroundColor: const Color(0xFF006769),
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -32,7 +34,7 @@ class AccountPage extends StatelessWidget {
         children: [
           // Section pertama dengan background biru solid
           Container(
-            color: const Color.fromARGB(255, 43, 74, 250),
+            color: const Color(0xFF006769),
             padding: const EdgeInsets.all(16.0),
             width: double.infinity,
             child: Column(
@@ -41,14 +43,17 @@ class AccountPage extends StatelessWidget {
                   margin: const EdgeInsets.all(16.0),
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.blueAccent, width: 2),
+                    color: Colors.white, // White background
+                    borderRadius:
+                        BorderRadius.circular(12), // Slightly rounded corners
+                    border: Border.all(
+                        color: Colors.black, width: 2), // Thicker black border
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: Offset(0, 5),
+                        color: Colors.black.withOpacity(0.3), // Stronger shadow
+                        // Slightly reduced blur for harsh shadow
+                        offset: const Offset(
+                            4, 8), // More vertical offset for a stronger effect
                       ),
                     ],
                   ),
@@ -56,26 +61,26 @@ class AccountPage extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: const AssetImage(
-                            'assets/images/icons/pict_profile.png'),
+                        backgroundImage:
+                            AssetImage('assets/images/icons/pict_profile.png'),
                       ),
                       const SizedBox(width: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Asep",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Colors.black, // Strong black text
                             ),
                           ),
                           Text(
                             "0 Points",
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.black54,
+                              color: Colors.black54, // Subtle gray text
                             ),
                           ),
                         ],
@@ -113,7 +118,8 @@ class AccountPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditProfilePage()),
+                            builder: (context) => EditProfilePage(),
+                          ),
                         );
                       },
                     ),
@@ -190,14 +196,15 @@ class AccountPage extends StatelessWidget {
                       icon: Icons.report_gmailerrorred_outlined,
                       title: "Laporkan Masalah",
                     ),
-                    ListTile(
+                    const ListTile(
                       leading: Icon(Icons.info_outline, color: Colors.grey),
                       title: Text("Versi Aplikasi"),
                       trailing: Text("beta 0.1"),
                     ),
                     ListTile(
-                      leading: Icon(Icons.logout_outlined, color: Colors.red),
-                      title: Text(
+                      leading:
+                          const Icon(Icons.logout_outlined, color: Colors.red),
+                      title: const Text(
                         "Log Out",
                         style: TextStyle(color: Colors.red),
                       ),
@@ -212,7 +219,7 @@ class AccountPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: const CustomBottomNavBar(
         currentIndex: 3,
       ),
     );
@@ -221,9 +228,9 @@ class AccountPage extends StatelessWidget {
   Widget buildCard(BuildContext context, List<Widget> children) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(12),
       ),
-      elevation: 4,
+      elevation: 6,
       color: Colors.grey[100],
       child: Column(children: children),
     );
@@ -232,9 +239,10 @@ class AccountPage extends StatelessWidget {
   Widget buildListTile(BuildContext context,
       {required IconData icon, required String title, VoidCallback? onTap}) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blueAccent),
+      leading: Icon(icon, color: const Color(0xFF006769)),
       title: Text(title),
-      trailing: Icon(Icons.arrow_forward_ios, color: Colors.blueAccent),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, color: const Color(0xFF006769)),
       onTap: onTap,
     );
   }
@@ -244,34 +252,48 @@ class AccountPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12), // Border lebih tajam
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                // Icon logout dengan warna merah yang lebih kuat
+                const Icon(
                   Icons.logout,
                   color: Colors.red,
                   size: 40,
                 ),
                 const SizedBox(height: 10),
+
+                // Judul "Log Out" dengan font tebal dan kontras
                 const Text(
                   "Log Out",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black, // Warna teks hitam untuk kontras
+                    letterSpacing: 1.2, // Spasi huruf untuk kesan tegas
                   ),
                 ),
                 const SizedBox(height: 10),
+
+                // Deskripsi dengan sedikit penyesuaian ukuran dan kerapatan
                 const Text(
                   "Apakah Anda yakin ingin log out?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87, // Warna teks lebih gelap
+                    height: 1.5, // Spasi antar teks
+                  ),
                 ),
                 const SizedBox(height: 20),
+
+                // Button dengan desain Neo Brutalism
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -280,34 +302,56 @@ class AccountPage extends StatelessWidget {
                         Navigator.of(context).pop(); // Tutup dialog
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey.shade300,
+                        backgroundColor:
+                            Colors.grey.shade300, // Warna abu-abu pucat
+                        foregroundColor:
+                            Colors.black, // Teks hitam untuk kontras
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius:
+                              BorderRadius.circular(8), // Border lebih tajam
+                          side: BorderSide(
+                              color: Colors.black, width: 2), // Border hitam
                         ),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
+                        shadowColor:
+                            Colors.black, // Shadow hitam untuk kesan kuat
                       ),
                       child: const Text(
                         "Batal",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black, // Teks hitam untuk kontras
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Tutup dialog
-                        Navigator.pushReplacementNamed(context, '/login');
+                        Navigator.pushReplacementNamed(
+                            context, '/login'); // Arahkan ke login
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.red, // Background merah tegas
+                        foregroundColor:
+                            Colors.white, // Teks putih untuk kontras
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius:
+                              BorderRadius.circular(8), // Border lebih tajam
+                          side: BorderSide(
+                              color: Colors.black, width: 2), // Border hitam
                         ),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
+                        shadowColor:
+                            Colors.black, // Shadow hitam untuk kesan kuat
                       ),
                       child: const Text(
                         "Log Out",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: Colors.white, // Teks putih untuk kontras
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

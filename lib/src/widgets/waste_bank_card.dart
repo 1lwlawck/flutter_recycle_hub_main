@@ -9,14 +9,14 @@ class WasteBankCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const WasteBankCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.address,
     required this.status,
     required this.statusColor,
     required this.isSelected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +24,21 @@ class WasteBankCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         color: Colors.white, // Menentukan warna putih untuk Card
-        margin: EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         elevation: 3,
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          leading: Icon(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          leading: const Icon(
             Icons.location_on,
             color: Colors.blueAccent,
           ),
           title: Text(
             name,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
@@ -50,9 +51,9 @@ class WasteBankCard extends StatelessWidget {
                 address,
                 style: TextStyle(fontSize: 14, color: Colors.grey[700]),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),

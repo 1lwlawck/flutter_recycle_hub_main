@@ -11,6 +11,8 @@ import '../../widgets/carousel_card.dart';
 class HomePage extends StatelessWidget {
   final ImagePicker _picker = ImagePicker();
 
+  HomePage({super.key});
+
   Future<void> _openCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 43, 74, 250),
+                  const Color(0xFF006769),
                   Color.fromARGB(255, 255, 255, 255),
                 ],
                 begin: Alignment.topCenter,
@@ -45,14 +47,14 @@ class HomePage extends StatelessWidget {
             height: screenHeight,
           ),
 
-          // White container with a gradient at the bottom for the Service Card and Carousel background
+          // White container with gradient
           Positioned(
             top: screenHeight * 0.3,
             child: Container(
               height: screenHeight * 0.7,
               width: screenWidth,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
                   colors: [
                     Color.fromARGB(255, 255, 255, 255),
                     Color.fromARGB(255, 230, 240, 255),
@@ -60,10 +62,17 @@ class HomePage extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    offset: const Offset(8, 8),
+                    blurRadius: 0,
+                  ),
+                ],
               ),
             ),
           ),
@@ -86,14 +95,13 @@ class HomePage extends StatelessWidget {
 
           // Scrollable Service Cards and Carousel
           Positioned(
-            top: screenHeight * 0.40, // Start scrolling a bit higher
+            top: screenHeight * 0.40,
             left: 0,
             right: 0,
             bottom: 0,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Service Cards section with reduced top margin
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
@@ -114,8 +122,7 @@ class HomePage extends StatelessWidget {
                             Navigator.pushNamed(context, '/pickup');
                           },
                         ),
-                        const SizedBox(
-                            height: 10), // Reduced space between cards
+                        const SizedBox(height: 10),
                         CustomButton(
                           iconPath: 'assets/images/icons/dropoff_icon.png',
                           text: 'Drop Off',
@@ -158,23 +165,23 @@ class HomePage extends StatelessWidget {
                       height: 150.0,
                       autoPlay: true,
                       enlargeCenterPage: true,
-                      viewportFraction: 0.9, // Full width for the carousel
+                      viewportFraction: 0.9,
                     ),
                     items: [
-                      CarouselCard(
+                      const CarouselCard(
                         title: "RecycleHub",
                         description:
                             "Tukarkan Points Kamu & Dapatkan Promo Menarik",
                         backgroundColor: Colors.red,
                         imagePath: "assets/images/icons/tukarpoints.png",
                       ),
-                      CarouselCard(
+                      const CarouselCard(
                         title: "RecycleHub",
                         description: "Tukarkan Points Jadi Souvenir Menarik",
                         backgroundColor: Colors.blue,
                         imagePath: "assets/images/icons/redeempoints.png",
                       ),
-                      CarouselCard(
+                      const CarouselCard(
                         title: "RecycleHub",
                         description:
                             "Daur Ulang Botol PET dapatkan bonus Points",
@@ -191,22 +198,21 @@ class HomePage extends StatelessWidget {
 
           // Floating Camera Button
           Positioned(
-            bottom: 10,
-            right: screenWidth * 0.5 - 190,
+            bottom: 30,
+            right: screenWidth * 0.05,
             child: GestureDetector(
               onTap: _openCamera,
               child: Container(
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 67, 117, 255),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xFF006769),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
+                      color: Colors.black.withOpacity(0.3),
+                      offset: const Offset(4, 4),
+                      blurRadius: 0,
                     ),
                   ],
                 ),
@@ -223,7 +229,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: const CustomBottomNavBar(
         currentIndex: 0,
       ),
     );

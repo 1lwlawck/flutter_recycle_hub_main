@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class OrderHistoryPage extends StatelessWidget {
+  const OrderHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 43, 74, 250),
+        backgroundColor: const Color.fromARGB(255, 43, 74, 250),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),

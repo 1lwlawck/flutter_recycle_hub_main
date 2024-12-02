@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AlamatPage extends StatelessWidget {
+  const AlamatPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,7 +10,7 @@ class AlamatPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -33,21 +35,22 @@ class AlamatPage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               margin: const EdgeInsets.only(bottom: 20.0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 1.5),
-                borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
+                    color: Colors.black
+                        .withOpacity(0.3), // Shadow lebih tegas dan kasar
+                    offset:
+                        const Offset(3, 3), // Shadow hanya di kanan dan bawah
+                    spreadRadius:
+                        5, // Spread lebih besar untuk kesan lebih keras
                   ),
                 ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         'No. Ponsel: 085860346754',
@@ -67,7 +70,7 @@ class AlamatPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Jl. Jasmine, RT 002 / RW 003, No 90\nDESA MAJU MUNDUR',
                     style: TextStyle(
                       color: Colors.black87,
@@ -93,17 +96,25 @@ class AlamatPage extends StatelessWidget {
                           // Fungsi untuk mengubah alamat
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          backgroundColor: const Color(
+                              0xFF006769), // Menggunakan warna sesuai permintaan
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                                color: Colors.black,
+                                width: 2), // Border hitam tegas
                           ),
+                          elevation: 0, // Tidak ada elevasi (bayangan lembut)
                         ),
                         child: const Text(
                           'Ubah',
                           style: TextStyle(
-                            color: Colors.white,
+                            color:
+                                Colors.white, // Warna putih untuk teks tombol
                             fontWeight: FontWeight.bold,
+                            letterSpacing:
+                                2, // Mempertegas teks dengan jarak antar huruf
                           ),
                         ),
                       ),
@@ -112,7 +123,7 @@ class AlamatPage extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             // Tombol Tambahkan Alamat
             SizedBox(
               width: double.infinity,
@@ -122,19 +133,22 @@ class AlamatPage extends StatelessWidget {
                   Navigator.pushNamed(context, '/tambah_alamat');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor:
+                      const Color(0xFF006769), // Warna sesuai dengan permintaan
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  elevation: 3,
+                  elevation: 0, // Tidak ada elevasi (bayangan lembut)
                 ),
                 child: const Text(
                   'Tambahkan Alamat',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.white, // Warna putih untuk teks tombol
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    letterSpacing:
+                        2, // Mempertegas teks dengan jarak antar huruf
                   ),
                 ),
               ),

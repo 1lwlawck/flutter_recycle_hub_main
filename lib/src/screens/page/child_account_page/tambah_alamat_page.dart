@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:dropdown_search/dropdown_search.dart';
 
 class TambahAlamatPage extends StatefulWidget {
+  const TambahAlamatPage({super.key});
+
   @override
   _TambahAlamatPageState createState() => _TambahAlamatPageState();
 }
@@ -81,6 +83,23 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
     }
   }
 
+  // Fungsi untuk memberikan efek shadow pada TextField
+  BoxDecoration textFieldDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2), // Warna shadow
+          offset: const Offset(3, 3), // Shadow hanya di kanan dan bawah
+          spreadRadius: 0, // Tidak ada penyebaran
+          blurRadius: 0, // Tanpa blur
+        ),
+      ],
+    );
+  }
+
+  // Fungsi untuk membuat InputDecoration
   InputDecoration inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
@@ -94,7 +113,7 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: Colors.blueAccent),
+        borderSide: const BorderSide(color: Colors.black),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
@@ -110,7 +129,7 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -126,13 +145,18 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.white, // Background warna putih
+        color: Colors.white,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: phoneController,
-              decoration: inputDecoration("No. Ponsel"),
+            // Input No. Ponsel
+            Container(
+              decoration:
+                  textFieldDecoration(), // Menambahkan shadow pada TextField
+              child: TextField(
+                controller: phoneController,
+                decoration: inputDecoration("No. Ponsel"),
+              ),
             ),
             const SizedBox(height: 16),
 
@@ -166,9 +190,8 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -209,9 +232,8 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -250,9 +272,8 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -285,9 +306,8 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -299,17 +319,25 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
             const SizedBox(height: 16),
 
             // Input Kode Pos
-            TextField(
-              controller: postalCodeController,
-              decoration: inputDecoration("Kode Pos"),
+            Container(
+              decoration:
+                  textFieldDecoration(), // Menambahkan shadow pada TextField
+              child: TextField(
+                controller: postalCodeController,
+                decoration: inputDecoration("Kode Pos"),
+              ),
             ),
             const SizedBox(height: 16),
 
             // Input Alamat Lengkap
-            TextField(
-              controller: fullAddressController,
-              maxLines: 3,
-              decoration: inputDecoration("Alamat Lengkap"),
+            Container(
+              decoration:
+                  textFieldDecoration(), // Menambahkan shadow pada TextField
+              child: TextField(
+                controller: fullAddressController,
+                maxLines: 3,
+                decoration: inputDecoration("Alamat Lengkap"),
+              ),
             ),
             const SizedBox(height: 16),
 
@@ -330,15 +358,17 @@ class _TambahAlamatPageState extends State<TambahAlamatPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Tambahkan logika untuk menyimpan alamat
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor:
+                      const Color(0xFF006769), // Warna sesuai permintaan
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                        color: Colors.black, width: 2), // Border hitam tegas
                   ),
+                  elevation: 0, // Tidak ada elevasi (bayangan lembut)
                 ),
                 child: const Text(
                   'Simpan',

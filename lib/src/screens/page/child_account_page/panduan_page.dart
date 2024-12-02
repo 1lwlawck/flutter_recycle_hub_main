@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class PanduanPage extends StatelessWidget {
+  const PanduanPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF006769),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -16,17 +18,19 @@ class PanduanPage extends StatelessWidget {
         title: const Text(
           'Panduan',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+            color: Colors.white,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
           ),
         ),
         centerTitle: true,
       ),
       body: Container(
         color: Colors.white,
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(0),
           children: [
             buildExpansionTile(
               "Registrasi",
@@ -72,43 +76,62 @@ class PanduanPage extends StatelessWidget {
   Widget buildExpansionTile(String title, String subtitle, List<String> steps) {
     return Column(
       children: [
-        ExpansionTile(
-          title: Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.black, width: 2),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.4),
+                offset: const Offset(3, 3), // Shadow kanan dan bawah
+                blurRadius: 0, // Tanpa blur
+              ),
+            ],
           ),
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  for (int i = 0; i < steps.length; i++)
-                    Text(
-                      "${i + 1}. ${steps[i]}",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        height: 1.5,
-                      ),
-                    ),
-                  const SizedBox(height: 10),
-                ],
+          child: ExpansionTile(
+            title: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                letterSpacing: 1.2,
+                color: Colors.black,
               ),
             ),
-          ],
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    for (int i = 0; i < steps.length; i++)
+                      Text(
+                        "${i + 1}. ${steps[i]}",
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          height: 1.5,
+                          fontSize: 14,
+                        ),
+                      ),
+                    const SizedBox(height: 12),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        Divider(
-          color: Colors.grey,
-          thickness: 0.5,
-        ),
+        const SizedBox(height: 10),
       ],
     );
   }

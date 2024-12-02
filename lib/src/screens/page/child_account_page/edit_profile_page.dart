@@ -14,6 +14,8 @@ class EditProfilePage extends StatelessWidget {
   final TextEditingController passwordController =
       TextEditingController(text: "*************");
 
+  EditProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class EditProfilePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -43,7 +45,7 @@ class EditProfilePage extends StatelessWidget {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundImage:
                         AssetImage('assets/images/icons/pict_profile.png'),
@@ -56,9 +58,13 @@ class EditProfilePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.blueAccent,
                         shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2, // Border tebal untuk kesan lebih kasar
+                        ),
                       ),
-                      child:
-                          Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                      child: const Icon(Icons.camera_alt,
+                          color: Colors.white, size: 20),
                     ),
                   ),
                 ],
@@ -88,14 +94,18 @@ class EditProfilePage extends StatelessWidget {
                               showSavePopup(context);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Colors.blueAccent,
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(
+                                  color: Colors.black,
+                                  width: 2,
+                                ),
                               ),
                             ),
                             child: const Text(
-                              "Simpan",
+                              "SIMPAN",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -137,11 +147,13 @@ class EditProfilePage extends StatelessWidget {
                 const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
+              borderSide:
+                  BorderSide(color: Colors.black, width: 2), // Border tebal
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.blueAccent),
+              borderSide: const BorderSide(
+                  color: Colors.blueAccent, width: 2), // Border saat fokus
             ),
             suffixIcon: isPassword
                 ? Icon(Icons.visibility_off, color: Colors.grey[600])
@@ -196,7 +208,7 @@ class EditProfilePage extends StatelessWidget {
                             horizontal: 20, vertical: 10),
                       ),
                       child: const Text(
-                        "Cancel",
+                        "CANCEL",
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -206,7 +218,7 @@ class EditProfilePage extends StatelessWidget {
                         Navigator.of(context).pop(); // Tutup popup
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.blueAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -214,7 +226,7 @@ class EditProfilePage extends StatelessWidget {
                             horizontal: 20, vertical: 10),
                       ),
                       child: const Text(
-                        "Save",
+                        "SAVE",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

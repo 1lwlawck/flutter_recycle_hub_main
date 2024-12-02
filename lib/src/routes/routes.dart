@@ -26,7 +26,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     // Auth
     '/login': (BuildContext context) => const LoginScreen(),
     '/register': (BuildContext context) => const RegisterScreen(),
-    '/change_password': (BuildContext context) => ChangePasswordPage(),
+    '/change_password': (BuildContext context) => const ChangePasswordPage(),
     '/verify_email': (BuildContext context) => EmailVerificationPage(),
 
     // Page
@@ -48,8 +48,8 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/rincian-history': (BuildContext context) => RincianHistoryPage(),
 
     // Message
-    '/empty-messages': (BuildContext context) => EmptyMessagePage(),
-    '/fill-messages': (BuildContext context) => FillMessagePage(),
+    '/empty-messages': (BuildContext context) => const EmptyMessagePage(),
+    '/fill-messages': (BuildContext context) => const FillMessagePage(),
 
     // Account
     '/account': (BuildContext context) => AccountPage(),

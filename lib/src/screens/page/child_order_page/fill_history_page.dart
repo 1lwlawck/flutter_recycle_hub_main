@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class FillHistoryPage extends StatelessWidget {
+  const FillHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(250, 43, 74, 250),
-        elevation: 0,
+        backgroundColor: const Color(0xFF006769),
+        elevation: 4,
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -19,7 +21,7 @@ class FillHistoryPage extends StatelessWidget {
           'History',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -63,56 +65,76 @@ class FillHistoryPage extends StatelessWidget {
         Navigator.pushNamed(context, '/rincian-history');
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 3,
-        shadowColor: Colors.grey.withOpacity(0.3),
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        elevation: 10,
+        shadowColor: Colors.black.withOpacity(0.5),
+        margin: const EdgeInsets.symmetric(vertical: 12),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(18.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Icon container with gradient and shadow
+              // Icon container with strong shadow and bright gradient
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.1),
+                  gradient: const LinearGradient(
+                    colors: [Colors.blueAccent, Colors.cyan],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.6),
+                      blurRadius: 12,
+                      offset: const Offset(6, 6),
+                    ),
+                  ],
                 ),
                 child: Icon(
                   icon,
-                  color: Colors.blueAccent,
-                  size: 30,
+                  color: Colors.white,
+                  size: 36,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 18),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title and Status Badge
+                    // Title and Status Badge with bold text
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           title,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.black,
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                              horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.green[700],
-                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.green[800],
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.green.withOpacity(0.4),
+                                blurRadius: 10,
+                                offset: const Offset(4, 4),
+                              ),
+                            ],
                           ),
                           child: Text(
                             status,
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -120,23 +142,30 @@ class FillHistoryPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 6),
                     Text(
                       date,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     Text(
                       description,
                       style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 10),
                     Text(
                       details,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),

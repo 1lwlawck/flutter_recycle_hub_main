@@ -8,31 +8,31 @@ class CustomButton extends StatelessWidget {
   final Gradient gradient; // Add gradient as a new parameter
   final VoidCallback? onTap;
 
-  CustomButton({
+  const CustomButton({
+    super.key,
     required this.iconPath,
     required this.text,
     required this.subtext,
-    required this.textColor, // Add textColor as required
-    required this.gradient, // Add gradient as required
+    required this.textColor,
+    required this.gradient,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 390, // Set fixed width
-      height: 110, // Set fixed height
+      width: double.infinity, // Make button fill the available width
+      height: 110, // Fixed height
       padding: const EdgeInsets.all(15),
       margin: const EdgeInsets.symmetric(vertical: 8), // Space between buttons
       decoration: BoxDecoration(
         gradient: gradient, // Use passed gradient
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10), // Smaller radius
         boxShadow: [
           BoxShadow(
-            color: Colors.black12, // Lighter shadow color
-            blurRadius: 6, // Reduced blur for a softer shadow
-            spreadRadius: 1, // Reduced spread for a thinner shadow
-            offset: const Offset(2, 2), // Slightly offset to bottom-right
+            color: Colors.black.withOpacity(0.15), // Lighter shadow color
+            offset: const Offset(4, 4), // Reduced offset
+            blurRadius: 8, // Slight blur for softer shadow
           ),
         ],
       ),
@@ -42,11 +42,24 @@ class CustomButton extends StatelessWidget {
           // Icon and text
           Row(
             children: [
-              Image.asset(
-                iconPath,
+              Container(
                 width: 60,
                 height: 60,
-                fit: BoxFit.contain, // Ensure the image fits well in the space
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9), // Background for icon
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      offset: const Offset(2, 2),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Image.asset(
+                  iconPath,
+                  fit: BoxFit.contain, // Ensure the image fits well
+                ),
               ),
               const SizedBox(width: 15),
               Column(
@@ -58,7 +71,7 @@ class CustomButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: textColor, // Use the passed text color
+                      color: textColor,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -75,11 +88,26 @@ class CustomButton extends StatelessWidget {
           ),
           // Arrow icon (wrapped with GestureDetector for button functionality)
           GestureDetector(
-            onTap: onTap, // Trigger onTap action only for the icon
-            child: const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-              size: 24,
+            onTap: onTap,
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9), // Background for icon
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+                size: 20,
+              ),
             ),
           ),
         ],

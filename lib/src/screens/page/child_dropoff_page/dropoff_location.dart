@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '/src/widgets/waste_bank_card.dart';
 
 class NearbyWasteBankPage extends StatefulWidget {
+  const NearbyWasteBankPage({super.key});
+
   @override
   _NearbyWasteBankPageState createState() => _NearbyWasteBankPageState();
 }
@@ -15,22 +17,24 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Area Map dengan tinggi yang lebih kecil
           Column(
             children: [
               Flexible(
                 flex: 3,
                 child: Container(
-                  color: Colors.grey[300],
-                  child: Center(
+                  color: Colors.blue.shade100,
+                  child: const Center(
                     child: Text(
                       'Map Area',
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                 ),
               ),
-              // Daftar Bank Sampah
               Expanded(
                 flex: 7,
                 child: Column(
@@ -38,18 +42,21 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      child: Text(
-                        "Bank Sampah Terdekat",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          horizontal: 16.0, vertical: 15.0),
+                      child: Container(
+                        child: const Text(
+                          "Bank Sampah Terdekat",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: ListView(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         children: [
                           WasteBankCard(
                             name: "Bank Sampah Dewi Sinta",
@@ -122,7 +129,6 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
               ),
             ],
           ),
-          // Search bar mengambang di atas map area
           Positioned(
             top: 50,
             left: 16,
@@ -130,12 +136,12 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(2, 2),
                   ),
                 ],
               ),
@@ -144,7 +150,7 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
                   hintText: 'Cari Bank Sampah',
                   fillColor: Colors.white,
                   filled: true,
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide.none,
@@ -153,7 +159,6 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
               ),
             ),
           ),
-          // Tombol "Selanjutnya" yang muncul dari bawah saat bank sampah dipilih
           if (selectedWasteBank != null)
             Positioned(
               bottom: 20,
@@ -164,13 +169,15 @@ class _NearbyWasteBankPageState extends State<NearbyWasteBankPage> {
                   // Aksi saat tombol "Selanjutnya" ditekan
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   backgroundColor: Colors.blueAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  shadowColor: Colors.black.withOpacity(0.2),
+                  elevation: 6,
                 ),
-                child: Text(
+                child: const Text(
                   "Selanjutnya",
                   style: TextStyle(
                     fontSize: 16,

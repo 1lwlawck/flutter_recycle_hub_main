@@ -20,22 +20,22 @@ class ChangePasswordPage extends StatelessWidget {
                 // Icon untuk mempercantik dialog
                 CircleAvatar(
                   radius: 40,
-                  backgroundColor: Colors.blueAccent.withOpacity(0.1),
-                  child: Icon(
+                  backgroundColor: const Color(0xFF006769).withOpacity(0.1),
+                  child: const Icon(
                     Icons.check_circle_outline,
-                    color: Colors.blueAccent,
+                    color: const Color(0xFF006769),
                     size: 50,
                   ),
                 ),
                 const SizedBox(height: 16),
 
                 // Teks judul
-                Text(
+                const Text(
                   "Kata Sandi Diperbarui",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
+                    color: const Color(0xFF006769),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -64,7 +64,7 @@ class ChangePasswordPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
+                      backgroundColor: const Color(0xFF006769),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -90,115 +90,132 @@ class ChangePasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF006769), // Latar belakang abu terang
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF006769),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Color.fromARGB(255, 43, 74, 250),
+            color: Color(0xFFFF),
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Buat Kata Sandi Baru",
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(24.0),
+          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                offset: const Offset(8, 8),
+                blurRadius: 0,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Masukkan kata sandi baru Anda",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Buat Kata Sandi Baru",
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF006769),
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 8),
+              Text(
+                "Masukkan kata sandi baru Anda",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[700],
+                ),
+              ),
+              const SizedBox(height: 24),
 
-            // Input untuk Kata Sandi Baru
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Kata Sandi Baru',
-                labelStyle: TextStyle(color: Colors.grey[700]),
-                filled: true,
-                fillColor: Colors.grey[100],
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16.0, horizontal: 16.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.blueAccent),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Input untuk Konfirmasi Kata Sandi
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Konfirmasi Kata Sandi',
-                labelStyle: TextStyle(color: Colors.grey[700]),
-                filled: true,
-                fillColor: Colors.grey[100],
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16.0, horizontal: 16.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.blueAccent),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Tombol Submit
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Tampilkan dialog sukses setelah tombol ditekan
-                  _showSuccessDialog(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              // Input untuk Kata Sandi Baru
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Kata Sandi Baru',
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: const Color(0xFFF4F4F4),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 16.0,
                   ),
-                  backgroundColor: Colors.blueAccent,
-                  elevation: 5,
-                ),
-                child: const Text(
-                  'Kirim',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Color(0xFF3333FF)),
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+
+              // Input untuk Konfirmasi Kata Sandi
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Konfirmasi Kata Sandi',
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: const Color(0xFFF4F4F4),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 16.0,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Color(0xFF3333FF)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Tombol Submit
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _showSuccessDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: const Color(0xFF006769),
+                    elevation: 5,
+                  ),
+                  child: const Text(
+                    'Kirim',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

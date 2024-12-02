@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../widgets/custom_bottom_navbar.dart'; // Import your custom bottom navbar widget
 
 class EmptyOrderPage extends StatelessWidget {
+  const EmptyOrderPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class EmptyOrderPage extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
                 context, '/home', (route) => false);
@@ -71,7 +73,7 @@ class EmptyOrderPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: const CustomBottomNavBar(
         currentIndex: 1, // Set to 1 as Orders is the second tab
       ),
     );

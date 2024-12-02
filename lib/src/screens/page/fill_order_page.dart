@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import '../../widgets/custom_bottom_navbar.dart';
 
 class OrderPage extends StatelessWidget {
+  const OrderPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 43, 74, 250),
-        elevation: 0,
+        backgroundColor: const Color(0xFF006769),
+        elevation: 4,
         title: const Text(
           'Order Saya',
           style: TextStyle(
@@ -25,10 +27,9 @@ class OrderPage extends StatelessWidget {
           ),
           onPressed: () {
             if (Navigator.canPop(context)) {
-              Navigator.pop(context); // Go back if there’s history
+              Navigator.pop(context);
             } else {
-              Navigator.pushReplacementNamed(
-                  context, '/home'); // Navigate to home if no history
+              Navigator.pushReplacementNamed(context, '/home');
             }
           },
         ),
@@ -64,7 +65,7 @@ class OrderPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: const CustomBottomNavBar(
         currentIndex: 1,
       ),
     );
@@ -82,38 +83,41 @@ class OrderPage extends StatelessWidget {
         Navigator.pushNamed(context, '/rincian-order');
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 5,
-        shadowColor: Colors.grey.withOpacity(0.3),
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 10, // Bayangan lebih tegas
+        shadowColor: Colors.black.withOpacity(0.7), // Bayangan lebih gelap
+        margin: const EdgeInsets.symmetric(vertical: 12),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Icon Container with gradient and shadow
+              // Icon Container with Neon-like Background and Strong Shadow
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Colors.blueAccent, Colors.lightBlueAccent],
+                    colors: [
+                      Colors.orange,
+                      Colors.redAccent
+                    ], // Warna neon yang kontras
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blueAccent.withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
+                      color: Colors.redAccent.withOpacity(0.6),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Icon(
                   icon,
                   color: Colors.white,
-                  size: 28,
+                  size: 30,
                 ),
               ),
               const SizedBox(width: 16),
@@ -121,29 +125,36 @@ class OrderPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title and Status Badge
+                    // Title and Status Badge with Strong Border and Background
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           title,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                              horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.orangeAccent.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.yellowAccent.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.orange.withOpacity(0.3),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
                           child: Text(
                             status,
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               color: Colors.orange,
                               fontWeight: FontWeight.bold,
                             ),
@@ -152,17 +163,17 @@ class OrderPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5),
-                    // Date
+                    // Date with lighter color
                     Text(
                       date,
                       style: TextStyle(color: Colors.grey[600], fontSize: 13),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     // Description and Details
                     Text(
                       description,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

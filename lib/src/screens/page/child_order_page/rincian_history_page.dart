@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RincianHistoryPage extends StatelessWidget {
+  const RincianHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 43, 74, 250),
-        elevation: 0,
+        backgroundColor: const Color(0xFF006769),
+        elevation: 4,
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -19,7 +21,7 @@ class RincianHistoryPage extends StatelessWidget {
           'Rincian History',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -29,12 +31,19 @@ class RincianHistoryPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Status Card
+            // Status Card with stronger contrast and shadow
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 14),
               decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(8),
+                color: Colors.green[800],
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(4, 4),
+                  ),
+                ],
               ),
               child: const Center(
                 child: Text(
@@ -42,45 +51,47 @@ class RincianHistoryPage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 16),
 
-            // Bank Address Card
+            // Bank Address Card with stronger contrast
             Card(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: const BorderSide(color: Colors.grey),
+                borderRadius: BorderRadius.circular(16),
+                side: const BorderSide(color: Colors.grey, width: 0.5),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              elevation: 6,
+              shadowColor: Colors.grey.shade400,
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Alamat Bank Sampah',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, color: Colors.blue),
-                        const SizedBox(width: 8),
+                        Icon(Icons.location_on, color: Colors.blue),
+                        SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Bank Sampah Mawar Merah',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -101,12 +112,14 @@ class RincianHistoryPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // Order Detail Card
+            // Order Detail Card with bold contrast
             Card(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(16),
               ),
+              elevation: 6,
+              shadowColor: Colors.black.withOpacity(0.3),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -114,10 +127,10 @@ class RincianHistoryPage extends StatelessWidget {
                   children: [
                     // Product Image
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 80,
+                      height: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
                         image: const DecorationImage(
                           image: AssetImage(
                               'assets/images/icons/pet.png'), // Sesuaikan path asset
@@ -128,54 +141,57 @@ class RincianHistoryPage extends StatelessWidget {
                     const SizedBox(width: 16),
 
                     // Product Details
-                    Expanded(
+                    const Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             '28 Oktober 2024',
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                            ),
                           ),
-                          const SizedBox(height: 4),
-                          const Text(
+                          SizedBox(height: 4),
+                          Text(
                             'Polyethylene Terephthalate (PET)',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '1 Kg',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '100 Points',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          const Text(
-                            '1 Kg',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            '100 Points',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Divider(),
+                          Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               Text(
                                 'Total Points:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                 ),
                               ),
                               Text(
                                 '100',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                 ),
                               ),
                             ],
@@ -189,19 +205,26 @@ class RincianHistoryPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // Order Status Section
+            // Order Status Section with neon color
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(4, 4),
+                  ),
+                ],
               ),
               child: const Center(
                 child: Text(
                   'Status Order\nSudah Selesai',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -210,7 +233,7 @@ class RincianHistoryPage extends StatelessWidget {
             ),
             const Spacer(),
 
-            // Bantuan Button
+            // Bantuan Button with bold style
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -218,16 +241,18 @@ class RincianHistoryPage extends StatelessWidget {
                   // Implementasi fungsi bantuan
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  backgroundColor: const Color.fromARGB(255, 180, 73, 73),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: const Color(0xFFB44646),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  elevation: 8,
+                  shadowColor: Colors.red.withOpacity(0.4),
                 ),
                 child: const Text(
                   'Bantuan',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DropOffPage extends StatefulWidget {
+  const DropOffPage({super.key});
+
   @override
   _DropOffPageState createState() => _DropOffPageState();
 }
@@ -14,7 +16,7 @@ class _DropOffPageState extends State<DropOffPage>
   bool hdpeSelected = false;
   bool petSelected = false;
   bool ppSelected = false;
-  List<File> _selectedImages = [];
+  final List<File> _selectedImages = [];
   late AnimationController _animationController;
 
   @override
@@ -35,7 +37,7 @@ class _DropOffPageState extends State<DropOffPage>
   Future<void> _pickImage() async {
     if (_selectedImages.length >= 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Maksimal 3 gambar yang dapat diunggah.')),
+        const SnackBar(content: Text('Maksimal 3 gambar yang dapat diunggah.')),
       );
       return;
     }
@@ -58,14 +60,14 @@ class _DropOffPageState extends State<DropOffPage>
       }
     } else if (permissionStatus.isDenied) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Izin akses galeri diperlukan untuk memilih gambar.'),
-        ),
+        const SnackBar(
+            content:
+                Text('Izin akses galeri diperlukan untuk memilih gambar.')),
       );
     } else if (permissionStatus.isPermanentlyDenied) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
+          content: const Text(
               'Izin akses galeri diperlukan. Silakan izinkan di Pengaturan.'),
           action: SnackBarAction(
             label: 'Buka Pengaturan',
@@ -109,22 +111,22 @@ class _DropOffPageState extends State<DropOffPage>
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: const Color(0xFF00796B),
+        elevation: 2,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Drop Off',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+            color: Colors.white,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -135,203 +137,91 @@ class _DropOffPageState extends State<DropOffPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Antar langsung sampahmu ke Drop Off point terdekat. Lihat panduan berat sampah di sini.',
-                style: TextStyle(color: Colors.black87),
+              _buildTitleWithIcon(
+                title: 'Antar langsung sampahmu ke Drop Off point terdekat.',
+                icon: Icons.location_on,
+                color: Colors.orangeAccent,
               ),
               const SizedBox(height: 16),
-              Text(
-                'Informasi Sampah',
+              _buildInfoCard(
+                  'Untuk berat sampah 1 Kg ke bawah, masukan berat perkiraan 1 Kg.'),
+              const SizedBox(height: 16),
+              _buildWeightRow(),
+              const SizedBox(height: 16),
+              const Text(
+                'Sub Jenis Plastik',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'Pilih jenis dan masukkan perkiraan berat sampah.',
-                style: TextStyle(color: Colors.grey[700]),
+              _buildPlasticTypeTile(
+                'High Density Polyethylene (HDPE)',
+                hdpeSelected,
+                (value) {
+                  setState(() {
+                    hdpeSelected = value!;
+                  });
+                },
               ),
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue[100],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  'Untuk berat sampah 1 Kg ke bawah, masukan berat perkiraan 1 Kg.',
-                  style: TextStyle(color: Colors.blue[800]),
-                ),
+              _buildPlasticTypeTile(
+                'Polyethylene Terephthalate (PET)',
+                petSelected,
+                (value) {
+                  setState(() {
+                    petSelected = value!;
+                  });
+                },
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.scale, color: Colors.green, size: 28),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Perkiraan Berat',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.remove_circle_outline),
-                        onPressed: decrementWeight,
-                      ),
-                      Text(
-                        '$weight Kg',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add_circle_outline),
-                        onPressed: incrementWeight,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Sub Jenis Plastik',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: [
-                  buildPlasticTypeTile(
-                    'High Density Polyethylene (HDPE)',
-                    hdpeSelected,
-                    (value) {
-                      setState(() {
-                        hdpeSelected = value!;
-                      });
-                    },
-                  ),
-                  buildPlasticTypeTile(
-                    'Polyethylene Terephthalate (PET)',
-                    petSelected,
-                    (value) {
-                      setState(() {
-                        petSelected = value!;
-                      });
-                    },
-                  ),
-                  buildPlasticTypeTile(
-                    'Polypropylene (PP)',
-                    ppSelected,
-                    (value) {
-                      setState(() {
-                        ppSelected = value!;
-                      });
-                    },
-                  ),
-                ],
+              _buildPlasticTypeTile(
+                'Polypropylene (PP)',
+                ppSelected,
+                (value) {
+                  setState(() {
+                    ppSelected = value!;
+                  });
+                },
               ),
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: _pickImage,
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera_alt_outlined, color: Colors.grey[600]),
-                      const SizedBox(width: 20),
-                      Text(
-                        'Tambahkan Gambar',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
+                child: _buildAddImageButton(),
               ),
               const SizedBox(height: 16),
-              if (_selectedImages.isNotEmpty)
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // Menentukan jumlah kolom
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 8,
-                    childAspectRatio: 1, // Kotak
-                  ),
-                  itemCount: _selectedImages.length,
-                  itemBuilder: (context, index) {
-                    return Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: AspectRatio(
-                              aspectRatio: 1, // Menjaga aspek kotak
-                              child: Image.file(
-                                _selectedImages[index],
-                                fit: BoxFit.cover, // Menyesuaikan gambar
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 4,
-                          child: GestureDetector(
-                            onTap: () => _removeImage(index),
-                            child: CircleAvatar(
-                              radius: 12,
-                              backgroundColor: Colors.red,
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+              if (_selectedImages.isNotEmpty) _buildImageGrid(),
             ],
           ),
         ),
       ),
       bottomNavigationBar: SlideTransition(
         position: Tween<Offset>(
-          begin: Offset(0, 1),
-          end: Offset(0, 0),
+          begin: const Offset(0, 1),
+          end: const Offset(0, 0),
         ).animate(_animationController),
         child: Container(
-          color: Colors.blueAccent.withOpacity(0.8),
-          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueAccent, Colors.greenAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Rp2000 s.d Rp2500 per Kg\nEstimasi Harga',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
               ElevatedButton(
@@ -339,19 +229,19 @@ class _DropOffPageState extends State<DropOffPage>
                   Navigator.pushNamed(context, '/dropoff-info');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
                     vertical: 12,
                     horizontal: 20,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Selanjutnya',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -363,28 +253,217 @@ class _DropOffPageState extends State<DropOffPage>
     );
   }
 
-  Widget buildPlasticTypeTile(
-      String title, bool isSelected, ValueChanged<bool?>? onChanged) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(
-          color: isSelected ? Colors.blueAccent : Colors.grey[300]!,
-          width: 1.5,
-        ),
-      ),
-      child: CheckboxListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? Colors.blueAccent : Colors.black87,
+  Widget _buildTitleWithIcon({
+    required String title,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 32),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
         ),
-        value: isSelected,
-        onChanged: onChanged,
-        activeColor: Colors.blueAccent,
-        controlAffinity: ListTileControlAffinity.leading,
+      ],
+    );
+  }
+
+  Widget _buildInfoCard(String content) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey[300]!),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 6,
+          ),
+        ],
       ),
+      child: Text(
+        content,
+        style: const TextStyle(color: Colors.black87),
+      ),
+    );
+  }
+
+  Widget _buildWeightRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.scale, color: Colors.green, size: 28),
+            SizedBox(width: 8),
+            Text(
+              'Perkiraan Berat',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+              onPressed: decrementWeight,
+            ),
+            Text(
+              '$weight Kg',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: const Icon(Icons.add_circle_outline, color: Colors.green),
+              onPressed: incrementWeight,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPlasticTypeTile(
+      String title, bool isSelected, ValueChanged<bool?>? onChanged) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.green : Colors.white,
+        border: Border.all(
+          color: isSelected ? Colors.greenAccent : Colors.grey[400]!,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Checkbox(
+            value: isSelected,
+            onChanged: onChanged,
+            activeColor: Colors.white,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.black,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddImageButton() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey[300]!),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.camera_alt_outlined, color: Colors.blue, size: 32),
+          SizedBox(width: 12),
+          Text(
+            'Tambahkan Gambar',
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageGrid() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 1,
+      ),
+      itemCount: _selectedImages.length,
+      itemBuilder: (context, index) {
+        return Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(4, 4),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(
+                  _selectedImages[index],
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: GestureDetector(
+                onTap: () => _removeImage(index),
+                child: const CircleAvatar(
+                  radius: 12,
+                  backgroundColor: Colors.red,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

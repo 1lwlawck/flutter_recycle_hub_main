@@ -9,10 +9,10 @@ class EmptyMessagePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 43, 74, 250),
+        backgroundColor: const Color.fromARGB(255, 43, 74, 250),
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Message',
           style: TextStyle(
             color: Colors.white,
@@ -20,7 +20,7 @@ class EmptyMessagePage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.white, // Warna hijau untuk tombol back
             ),
@@ -41,7 +41,7 @@ class EmptyMessagePage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             // Teks "Tidak ada Message"
-            Text(
+            const Text(
               'Tidak ada Message',
               style: TextStyle(
                 fontSize: 18,
@@ -51,7 +51,7 @@ class EmptyMessagePage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             // Teks deskripsi tambahan
-            Text(
+            const Text(
               'Ayo, daur ulang sampahmu sekarang!',
               style: TextStyle(
                 fontSize: 14,
@@ -62,7 +62,7 @@ class EmptyMessagePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: 2),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 2),
     );
   }
 }
