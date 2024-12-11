@@ -1,0 +1,2 @@
+dapat_diterima
+tidak_dapat_diterima

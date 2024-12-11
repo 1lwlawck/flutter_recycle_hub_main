@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'src/routes/routes.dart';
+import 'core/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.green),
       onGenerateRoute: (settings) {
-        // Mendapatkan widget sesuai rute
         WidgetBuilder builder = getAppRoutes()[settings.name]!;
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>

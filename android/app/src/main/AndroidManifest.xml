@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Tambahkan izin akses galeri dan kamera di sini -->
+
+    <!-- Izin untuk akses media dan kamera -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="flutter_recycle_hub"
@@ -36,7 +38,7 @@
             android:value="2" />
     </application>
 
-    <!-- Tambahan untuk mengizinkan query intent untuk pemrosesan teks -->
+    <!-- Tambahan untuk query intent pemrosesan teks -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />
