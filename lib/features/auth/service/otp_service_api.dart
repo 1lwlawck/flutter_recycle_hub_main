@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_recycle_hub/core/services/config.dart';
 
 class OtpServiceApi {
+  final http.Client client;
+
+  OtpServiceApi({http.Client? client}) : client = client ?? http.Client();
   Future<Map<String, dynamic>?> verifyOtp(String email, String otp) async {
     final url =
         '${Config.API_URL}/api/auth/verify-otp'; // Ganti dengan URL yang sesuai

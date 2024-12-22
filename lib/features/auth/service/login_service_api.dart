@@ -4,6 +4,11 @@ import 'package:flutter_recycle_hub/core/services/config.dart';
 import 'package:flutter_recycle_hub/utils/shared_prefs_util.dart';
 
 class AuthLoginService {
+  final http.Client client;
+
+  // Dependency injection untuk http.Client (default: http.Client())
+  AuthLoginService({http.Client? client}) : client = client ?? http.Client();
+
   // Fungsi untuk login
   Future<Map<String, dynamic>> login({
     required String email,
@@ -29,7 +34,7 @@ class AuthLoginService {
         // Simpan email dan nama pengguna setelah login berhasil
         String userEmail = responseBody['user']['email'];
         String userName = responseBody['user']['nama_user'];
-        int userId = responseBody['user']['id']; // Ambil user_id
+        int userId = responseBody['user']['id'];
         String accessToken = responseBody['access_token'];
         String refreshToken = responseBody['refresh_token'];
 

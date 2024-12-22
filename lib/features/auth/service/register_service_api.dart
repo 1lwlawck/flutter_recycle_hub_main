@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_recycle_hub/core/services/config.dart'; // Pastikan kamu import Config
 
 class RegisterServiceApi {
+  final http.Client client;
+
+  RegisterServiceApi({http.Client? client}) : client = client ?? http.Client();
   Future<Map<String, dynamic>?> register(String nama, String email,
       String password, String confirmPassword) async {
     final url =

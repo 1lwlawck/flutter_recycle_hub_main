@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_recycle_hub/features/home/services/points_service_api.dart';
 
 class PointsSection extends StatefulWidget {
-  const PointsSection({Key? key}) : super(key: key);
+  const PointsSection({super.key});
 
   @override
   _PointsSectionState createState() => _PointsSectionState();

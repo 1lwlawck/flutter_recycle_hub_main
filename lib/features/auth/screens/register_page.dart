@@ -85,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       setState(() {
         message = 'Terjadi kesalahan, coba lagi nanti.';
-        otpSent = false;
+        otpSent = true;
       });
 
       Future.delayed(const Duration(seconds: 5), () {
@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (responseMessage == 'OTP valid') {
         setState(() {
-          isOtpVerified = true; // Menandakan OTP berhasil diverifikasi
+          isOtpVerified = true;
         });
 
         // Berhasil, pindah ke halaman Login
