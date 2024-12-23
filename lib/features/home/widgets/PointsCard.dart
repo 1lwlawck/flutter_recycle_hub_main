@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/home/services/points_service_api.dart';
+import 'package:flutter_recycle_hub/features/home/services/PointServiceApi.dart';
 
 class PointsSection extends StatefulWidget {
   const PointsSection({super.key});

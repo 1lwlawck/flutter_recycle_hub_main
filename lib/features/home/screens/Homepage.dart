@@ -2,12 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import '../widgets/gretting_card.dart';
+import '../widgets/GrettingCard.dart';
 import '../../../widgets/custom_bottom_navbar.dart';
-import '../widgets/points_card.dart';
-import '../widgets/custom_btn_card_services.dart';
-import '../widgets/carousel_card.dart';
-import 'package:flutter_recycle_hub/features/image-detection/screens/image_detection.dart';
+import '../widgets/PointsCard.dart';
+import '../widgets/CustomBtnCardService.dart';
+import '../widgets/CarouselCard.dart';
+import 'package:flutter_recycle_hub/features/image-detection/screens/ImageDetection.dart';
 
 class HomePage extends StatelessWidget {
   final ImagePicker _picker = ImagePicker();

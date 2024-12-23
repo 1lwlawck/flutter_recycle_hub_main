@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../home/widgets/waste_bank_card.dart';
+import '../../home/widgets/WasteBankCard.dart';
 
 class NearbyWasteBankPage extends StatefulWidget {
   const NearbyWasteBankPage({super.key});

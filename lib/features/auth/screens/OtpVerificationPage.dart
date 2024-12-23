@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/auth/service/otp_service_api.dart';
+import 'package:flutter_recycle_hub/features/auth/service/OtpServiceApi.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   final String email;

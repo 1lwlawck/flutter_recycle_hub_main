@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/splash/splash2.dart';
+import 'package:flutter_recycle_hub/splash/SecondSplash.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/auth/screens/login_page.dart';
+import 'package:flutter_recycle_hub/features/auth/screens/LoginUserPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart'; // Import package animated_text_kit
 

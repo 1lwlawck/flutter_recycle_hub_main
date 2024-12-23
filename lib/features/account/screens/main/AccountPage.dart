@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/account/screens/daftar_alamat_page.dart';
-import 'package:flutter_recycle_hub/features/account/screens/edit_profile_page.dart';
-import 'package:flutter_recycle_hub/features/account/screens/kebijakan_privasi_page.dart';
-import 'package:flutter_recycle_hub/features/account/screens/panduan_page.dart';
-import 'package:flutter_recycle_hub/features/account/screens/syarat_ketentuan_page.dart';
-import 'package:flutter_recycle_hub/features/home/services/points_service_api.dart';
+import 'package:flutter_recycle_hub/features/account/screens/DaftarAlamatPage.dart';
+import 'package:flutter_recycle_hub/features/account/screens/EditProfilePage.dart';
+import 'package:flutter_recycle_hub/features/account/screens/KebijakanPrivasiPage.dart';
+import 'package:flutter_recycle_hub/features/account/screens/PanduanPenggunaPage.dart';
+import 'package:flutter_recycle_hub/features/account/screens/SyaratKetentuanPage.dart';
+import 'package:flutter_recycle_hub/features/home/services/PointServiceApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../widgets/custom_bottom_navbar.dart';
 

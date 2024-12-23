@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/auth/service/register_service_api.dart';
-import 'package:flutter_recycle_hub/features/auth/service/otp_service_api.dart';
-import 'package:flutter_recycle_hub/features/auth/widgets/btn_login.dart';
+import 'package:flutter_recycle_hub/features/auth/service/RegisterServiceApi.dart';
+import 'package:flutter_recycle_hub/features/auth/service/OtpServiceApi.dart';
+import 'package:flutter_recycle_hub/features/auth/widgets/BtnLogin.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {

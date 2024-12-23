@@ -16,7 +16,7 @@ class PanduanPage extends StatelessWidget {
           },
         ),
         title: const Text(
-          'Panduan',
+          'Panduan Pengguna',
           style: TextStyle(
             color: Colors.white,
             fontSize: 22,

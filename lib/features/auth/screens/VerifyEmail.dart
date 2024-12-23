@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/auth/screens/login_page.dart';
-import 'package:flutter_recycle_hub/features/auth/service/verify_email_forgot_password_api.dart';
+import 'package:flutter_recycle_hub/features/auth/screens/LoginUserPage.dart';
+import 'package:flutter_recycle_hub/features/auth/service/VerifyEmailForgotPasswordApi.dart';
 
 class EmailVerificationPage extends StatelessWidget {
   EmailVerificationPage({super.key});
