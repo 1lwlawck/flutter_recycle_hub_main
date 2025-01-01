@@ -7,7 +7,7 @@ class KebijakanPrivasiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF006769), // Warna sesuai permintaan
+        backgroundColor: const Color(0xFF006769), // Warna sesuai permintaan`
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
