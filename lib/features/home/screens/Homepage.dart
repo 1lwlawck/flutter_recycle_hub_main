@@ -162,6 +162,22 @@ class HomePage extends StatelessWidget {
                             Navigator.pushNamed(context, '/rewards');
                           },
                         ),
+                        const SizedBox(height: 10),
+                        CustomButton(
+                          iconPath: 'assets/images/icons/chat-icon.png',
+                          text: 'Chatbot',
+                          subtext: 'Tanya Jawab Seputar Recycle',
+                          textColor: Colors.green,
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFE8F5E9),
+                              Color(0xFFC8E6C9),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/chatbot');
+                          },
+                        ),
                       ],
                     ),
                   ),

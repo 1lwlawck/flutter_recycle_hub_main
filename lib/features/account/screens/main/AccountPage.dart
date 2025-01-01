@@ -4,6 +4,7 @@ import 'package:flutter_recycle_hub/features/account/screens/EditProfilePage.dar
 import 'package:flutter_recycle_hub/features/account/screens/KebijakanPrivasiPage.dart';
 import 'package:flutter_recycle_hub/features/account/screens/PanduanPenggunaPage.dart';
 import 'package:flutter_recycle_hub/features/account/screens/SyaratKetentuanPage.dart';
+import 'package:flutter_recycle_hub/features/account/screens/UlasanMasukanPage.dart';
 import 'package:flutter_recycle_hub/features/home/services/PointServiceApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../widgets/custom_bottom_navbar.dart';
@@ -244,6 +245,19 @@ class AccountPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => KebijakanPrivasiPage(),
+                                ),
+                              );
+                            },
+                          ),
+                          buildListTile(
+                            context,
+                            icon: Icons.feedback_outlined,
+                            title: "Ulasan & Masukan",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UlasanMasukanPage(),
                                 ),
                               );
                             },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recycle_hub/features/account/screens/TambahAlamatPage.dart';
+import 'package:flutter_recycle_hub/features/chatbot/screens/ChatbotPage.dart';
 import 'package:flutter_recycle_hub/features/dropoff/screens/DropOffLocationPage.dart';
 import 'package:flutter_recycle_hub/features/dropoff/screens/DropOffInformationPage.dart';
 import 'package:flutter_recycle_hub/features/orders/screens/OrderEmptyPage.dart';
@@ -17,6 +18,7 @@ import '../../features/account/screens/main/AccountPage.dart';
 import '../../features/history/screens/HistoryRincianPage.dart';
 import '../../features/messages/screens/MessageEmptyPage.dart';
 import '../../features/messages/screens/MessageFillPage.dart';
+import '../../features/messages/screens/MessagePage.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
@@ -29,6 +31,9 @@ Map<String, WidgetBuilder> getAppRoutes() {
 
     // Page
     '/home': (BuildContext context) => HomePage(),
+
+    // Chatbot
+    '/chatbot': (BuildContext context) => const Chatbotpage(),
 
     // Dropoff
     '/dropoff': (BuildContext context) => DropOffPage(),
@@ -48,6 +53,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     // Message
     '/empty-messages': (BuildContext context) => const EmptyMessagePage(),
     '/fill-messages': (BuildContext context) => const FillMessagePage(),
+    '/message': (BuildContext context) => const MessagePage(),
 
     // Account
     '/account': (BuildContext context) => AccountPage(),

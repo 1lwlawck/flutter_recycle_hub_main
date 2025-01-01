@@ -2,6 +2,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsUtil {
   static const String userIdKey = 'user_id';
+  static const String userNameKey = 'user_name';
+  static const String userEmailKey = 'user_email';
+  static const String accessTokenKey = 'access_token';
+  static const String refreshTokenKey = 'refresh_token';
 
   // Simpan User ID
   static Future<void> saveUserId(int userId) async {
@@ -17,55 +21,55 @@ class SharedPrefsUtil {
 
   // Simpan nama pengguna
   static Future<void> saveUserName(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_name', name);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userNameKey, name);
   }
 
   // Ambil nama pengguna
   static Future<String> getUserName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_name') ?? "Pengguna"; // Default "Pengguna"
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userNameKey) ?? "Pengguna"; // Default "Pengguna"
   }
 
   // Simpan email pengguna
   static Future<void> saveUserEmail(String email) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_email', email);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userEmailKey, email);
   }
 
   // Ambil email pengguna
   static Future<String> getUserEmail() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_email') ?? "";
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userEmailKey) ?? "";
   }
 
   // Simpan access token
   static Future<void> saveAccessToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('access_token', token);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(accessTokenKey, token);
   }
 
   // Ambil access token
   static Future<String> getAccessToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('access_token') ?? "";
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(accessTokenKey) ?? "";
   }
 
   // Simpan refresh token
   static Future<void> saveRefreshToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('refresh_token', token);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(refreshTokenKey, token);
   }
 
   // Ambil refresh token
   static Future<String> getRefreshToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('refresh_token') ?? "";
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(refreshTokenKey) ?? "";
   }
 
   // Hapus semua data
   static Future<void> clearAll() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
 }
