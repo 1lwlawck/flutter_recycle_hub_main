@@ -9,6 +9,7 @@ import 'package:flutter_recycle_hub/features/history/screens/HistoryEmptyPage.da
 import 'package:flutter_recycle_hub/features/dropoff/screens/main/DropOffPage.dart';
 import 'package:flutter_recycle_hub/features/orders/screens/OrderRincianPage.dart';
 import 'package:flutter_recycle_hub/splash/FirstSplash.dart';
+import 'package:flutter_recycle_hub/splash/SecondSplash.dart';
 import '../../features/auth/screens/LoginUserPage.dart';
 import '../../features/auth/screens/RegisterUserPage.dart';
 import '../../features/home/screens/Homepage.dart';
@@ -20,6 +21,7 @@ import '../../features/messages/screens/MessageFillPage.dart';
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
     '/': (BuildContext context) => SplashScreen(),
+    '/splash2': (BuildContext context) => SplashScreen2(),
 
     // Auth
     '/login': (BuildContext context) => const LoginScreen(),
