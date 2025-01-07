@@ -35,9 +35,27 @@ class _UlasanMasukanPageState extends State<UlasanMasukanPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Ulasan Berhasil'),
-            content:
-                Text('Ulasan Anda telah dikirim. Terima kasih atas ulasannya!'),
+            backgroundColor: Colors.white, // Background dialog putih
+            title: const Text(
+              'Ulasan Berhasil',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: Text(
+              'Ulasan Anda telah dikirim. Terima kasih atas ulasannya!',
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // Rounded corners
+              side: const BorderSide(
+                  color: Color(0xFF006769), width: 2), // Border tebal hitam
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -49,6 +67,7 @@ class _UlasanMasukanPageState extends State<UlasanMasukanPage> {
                 ),
               ),
             ],
+            elevation: 10, // Shadow yang lebih besar
           );
         },
       );
@@ -89,24 +108,17 @@ class _UlasanMasukanPageState extends State<UlasanMasukanPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Tulis Ulasan Anda',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF006769),
-              ),
-            ),
             const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: const Color(0xFF006769), width: 3),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6.0,
-                    offset: Offset(0, 2),
+                    color: const Color(0xFF006769).withOpacity(1),
+                    offset: const Offset(4, 4), // Shadow kanan dan bawah
+                    blurRadius: 0, // Blur lebih besar
                   ),
                 ],
               ),
@@ -127,12 +139,17 @@ class _UlasanMasukanPageState extends State<UlasanMasukanPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF006769),
                   foregroundColor: Colors.white,
-                  elevation: 5,
-                  shadowColor: Colors.black45,
+                  elevation:
+                      15, // Meningkatkan elevasi untuk shadow lebih dramatis
+                  shadowColor:
+                      Colors.black.withOpacity(0.7), // Shadow lebih gelap
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Radius lebih besar
+                    side: const BorderSide(
+                        color: Color(0xFF006769), width: 2), // Border tebal
                   ),
                 ),
                 onPressed: _isLoading ? null : _submitUlasan,

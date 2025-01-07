@@ -10,8 +10,8 @@ class Chatbotpage extends StatefulWidget {
 
 class _ChatbotpageState extends State<Chatbotpage> {
   List<String> messages = [];
-  TextEditingController _controller = TextEditingController();
-  ChatbotService _chatbotService = ChatbotService();
+  final TextEditingController _controller = TextEditingController();
+  final ChatbotService _chatbotService = ChatbotService();
 
   int _chatbotMessageIndex = -1;
 

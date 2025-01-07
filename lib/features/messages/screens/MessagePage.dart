@@ -18,7 +18,7 @@ class _MessagePageState extends State<MessagePage> {
     },
   ];
 
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   // Fungsi untuk mengirim pesan
   void _sendMessage() {
