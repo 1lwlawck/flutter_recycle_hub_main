@@ -2,6 +2,7 @@
 
 class User {
   final int id;
+  final String? avatar;
   final String namaUser;
   final bool isVerified;
   final String? jenisKelamin;
@@ -14,6 +15,7 @@ class User {
 
   User({
     required this.id,
+    this.avatar,
     required this.namaUser,
     required this.isVerified,
     this.jenisKelamin,
@@ -34,6 +36,7 @@ class User {
       nomorHp: json['nomor_hp'] as String?,
       email: json['email'] as String,
       otp: json['otp'] as String?,
+      avatar: json['avatar'] as String?,
       points: json['points'] as int,
       role: json['role'] as String,
       tanggalLahir: json['tanggal_lahir'] as String?,

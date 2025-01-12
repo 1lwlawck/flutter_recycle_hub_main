@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_recycle_hub/core/models/Users.dart';
+import 'package:flutter_recycle_hub/core/services/Config.dart';
+import 'package:flutter_recycle_hub/features/account/services/UserService.dart';
 
 class UserGreeting extends StatelessWidget {
   const UserGreeting({super.key});
@@ -18,114 +21,148 @@ class UserGreeting extends StatelessWidget {
     }
   }
 
-  // Fungsi untuk mengambil nama pengguna dari SharedPreferences
-  Future<String> _getUserName() async {
+  // Fungsi untuk mendapatkan data pengguna
+  Future<User?> _getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_name') ??
-        "Pengguna"; // Default "Pengguna" jika tidak ada
+    final userId = prefs.getInt('user_id');
+    if (userId == null) {
+      return null; // User belum login
+    }
+    return await UserService.getUser(userId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: _getUserName(), // Memanggil fungsi untuk mengambil nama pengguna
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child:
-                CircularProgressIndicator(), // Tampilkan loading jika data sedang diambil
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child:
-                Text('Terjadi kesalahan!'), // Menampilkan pesan error jika ada
-          );
-        } else if (snapshot.hasData) {
-          final userName = snapshot.data!; // Mendapatkan nama pengguna
-          return Container(
-            width: double.infinity,
-            height: 120,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  offset: const Offset(8, 8),
-                  blurRadius: 0,
+    return Container(
+      width: double.infinity,
+      height: 120,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            offset: const Offset(8, 8),
+            blurRadius: 0,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Greeting text
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _getGreetingMessage(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Greeting text
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _getGreetingMessage(),
-                      style: const TextStyle(
-                        fontSize: 18,
+              ),
+              const SizedBox(height: 5),
+              FutureBuilder<User?>(
+                future: _getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text(
+                      "Loading...",
+                      style: TextStyle(
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      userName, // Menampilkan nama pengguna
+                    );
+                  } else if (snapshot.hasError || !snapshot.hasData) {
+                    return const Text(
+                      "Error",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    );
+                  } else {
+                    final user = snapshot.data!;
+                    return Text(
+                      user.namaUser,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
-                    ),
-                    const SizedBox(height: 3),
-                    const Text(
-                      "Ubah Sampah Plastik Jadi Nilai",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
+                    );
+                  }
+                },
+              ),
+              const SizedBox(height: 3),
+              const Text(
+                "Ubah Sampah Plastik Jadi Nilai",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
                 ),
+              ),
+            ],
+          ),
 
-                // Profile Picture
-                Container(
+          // Profile Picture
+          FutureBuilder<User?>(
+            future: _getUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF4F4F4),
-                    shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        offset: const Offset(4, 4),
-                        blurRadius: 0,
-                      ),
-                    ],
+                  ),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (snapshot.hasError || !snapshot.hasData) {
+                return Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F4F4),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.person, size: 50),
+                );
+              } else {
+                final user = snapshot.data!;
+                return Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F4F4),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      'assets/images/icons/pict_profile.png',
-                      fit: BoxFit.cover,
-                    ),
+                    child: (user.avatar != null && user.avatar!.isNotEmpty)
+                        ? Image.network(
+                            '${Config.API_URL}/static/uploads/avatars/${user.avatar}',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.person, size: 50);
+                            },
+                          )
+                        : const Icon(Icons.person, size: 50),
                   ),
-                ),
-              ],
-            ),
-          );
-        } else {
-          return const Center(
-            child: Text('Tidak ada data'), // Jika tidak ada data
-          );
-        }
-      },
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

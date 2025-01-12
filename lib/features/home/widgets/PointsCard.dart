@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recycle_hub/features/home/services/PointServiceApi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_recycle_hub/features/account/services/UserService.dart';
 
 class PointsSection extends StatefulWidget {
   const PointsSection({super.key});
@@ -9,25 +10,42 @@ class PointsSection extends StatefulWidget {
 }
 
 class _PointsSectionState extends State<PointsSection> {
-  int points = 0;
-  bool isLoading = true;
+  int points = 0; // Default value for points
+  bool isLoading = true; // Loading indicator
 
   @override
   void initState() {
     super.initState();
-    _fetchPoints();
+    _fetchUserPoints(); // Fetch points when widget initializes
   }
 
-  Future<void> _fetchPoints() async {
+  Future<void> _fetchUserPoints() async {
     try {
-      final fetchedPoints = await PointsCardService.getUserPoints();
-      setState(() {
-        points = fetchedPoints;
-        isLoading = false;
-      });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getInt('user_id'); // Get user ID from preferences
+      if (userId != null) {
+        final user = await UserService.getUser(userId); // Fetch user data
+        if (user != null) {
+          setState(() {
+            points = user.points; // Extract points from user object
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            points = 0;
+            isLoading = false;
+          });
+        }
+      } else {
+        setState(() {
+          points = 0; // Default to 0 if no user ID found
+          isLoading = false;
+        });
+      }
     } catch (e) {
-      print('Error fetching points: $e');
+      print("Error fetching points: $e");
       setState(() {
+        points = 0;
         isLoading = false;
       });
     }

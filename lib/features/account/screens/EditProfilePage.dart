@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recycle_hub/core/models/Users.dart';
+import 'package:flutter_recycle_hub/core/services/Config.dart';
 import 'package:flutter_recycle_hub/utils/shared_prefs_util.dart';
 import 'package:flutter_recycle_hub/features/account/services/UserService.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -19,6 +22,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   bool isLoading = true;
   User? user;
+  File? profileImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -73,6 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final success = await UserService.updateUser(
       userId: user!.id,
       userData: userData,
+      avatarFile: profileImage,
     );
 
     _showDialog(
@@ -80,6 +86,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ? "Data berhasil diperbarui"
           : "Gagal memperbarui data, coba lagi nanti.",
     );
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        profileImage = File(pickedFile.path);
+      });
+    }
   }
 
   void _showDialog(String message) {
@@ -90,7 +105,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          elevation: 8, // Shadow efek
+          elevation: 8,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -142,7 +157,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFE5E5E5),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -164,6 +179,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Expanded(
               child: ListView(
                 children: [
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: const Offset(8, -8),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: profileImage != null
+                            ? Image.file(
+                                profileImage!,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                "${Config.API_URL}/static/uploads/avatars/${user!.avatar}",
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.person, size: 50),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   buildTextField("Nama", nameController),
                   const SizedBox(height: 10),
                   buildTextField("Tanggal Lahir", dobController),

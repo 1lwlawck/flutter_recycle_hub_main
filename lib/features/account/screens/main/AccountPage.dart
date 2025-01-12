@@ -5,27 +5,41 @@ import 'package:flutter_recycle_hub/features/account/screens/KebijakanPrivasiPag
 import 'package:flutter_recycle_hub/features/account/screens/PanduanPenggunaPage.dart';
 import 'package:flutter_recycle_hub/features/account/screens/SyaratKetentuanPage.dart';
 import 'package:flutter_recycle_hub/features/account/screens/UlasanMasukanPage.dart';
-import 'package:flutter_recycle_hub/features/home/services/PointServiceApi.dart';
+import 'package:flutter_recycle_hub/core/models/Users.dart';
+import 'package:flutter_recycle_hub/core/services/Config.dart';
+import 'package:flutter_recycle_hub/features/account/services/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../widgets/custom_bottom_navbar.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
-  // Fungsi untuk mengambil nama pengguna dari SharedPreferences
-  Future<String> _getUserName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_name') ?? "Pengguna"; // Default "Pengguna"
+  @override
+  _AccountPageState createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  late Future<User?> user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = _getUserData();
   }
 
-  // Fungsi untuk mengambil points dari PointsCardService
-  Future<int> _getUserPoints() async {
-    try {
-      return await PointsCardService.getUserPoints();
-    } catch (e) {
-      print('Error fetching points: $e');
-      return 0; // Default points jika gagal
+  Future<User?> _getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id');
+    if (userId == null) {
+      return null; // User belum login
     }
+    return await UserService.getUser(userId);
+  }
+
+  void _refreshUserData() {
+    setState(() {
+      user = _getUserData();
+    });
   }
 
   Future<void> clearSession() async {
@@ -36,286 +50,314 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: _getUserName(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('Terjadi kesalahan!'),
-          );
-        } else if (snapshot.hasData) {
-          final userName = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Account"),
-              titleTextStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-              backgroundColor: const Color(0xFF006769),
-              iconTheme: const IconThemeData(
-                color: Colors.white,
-              ),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
-                },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Account"),
+        titleTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+        ),
+        backgroundColor: const Color(0xFF006769),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/home');
+          },
+        ),
+      ),
+      body: Column(
+        children: [
+          // Section pertama dengan background biru solid
+          Card(
+            color: const Color(0xFF006769),
+            margin: const EdgeInsets.all(0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
             ),
-            body: Column(
-              children: [
-                // Section pertama dengan background biru solid
-                Container(
-                  color: const Color(0xFF006769),
-                  padding: const EdgeInsets.all(16.0),
-                  width: double.infinity,
-                  child: Column(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  FutureBuilder<User?>(
+                    future: _getUserData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError || !snapshot.hasData) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.grey,
+                            child: const Icon(Icons.person, size: 50),
+                          ),
+                        );
+                      } else {
+                        final user = snapshot.data!;
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            '${Config.API_URL}/static/uploads/avatars/${user.avatar}',
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey,
+                                child: const Icon(Icons.person, size: 50),
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(16.0),
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.black, width: 2),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              offset: const Offset(4, 8),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 40,
-                              backgroundImage: AssetImage(
-                                  'assets/images/icons/pict_profile.png'),
-                            ),
-                            const SizedBox(width: 16),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userName,
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                FutureBuilder<int>(
-                                  future: _getUserPoints(),
-                                  builder: (context, pointsSnapshot) {
-                                    if (pointsSnapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
-                                    } else if (pointsSnapshot.hasError) {
-                                      return const Text(
-                                        "Error loading points",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.red,
-                                        ),
-                                      );
-                                    } else if (pointsSnapshot.hasData) {
-                                      return Text(
-                                        "${pointsSnapshot.data} Points",
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black54,
-                                        ),
-                                      );
-                                    } else {
-                                      return const Text(
-                                        "0 Points",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black54,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                      FutureBuilder<User?>(
+                        future: _getUserData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text(
+                              "Loading...",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            );
+                          } else if (snapshot.hasError || !snapshot.hasData) {
+                            return const Text(
+                              "Error",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            );
+                          } else {
+                            final user = snapshot.data!;
+                            return Text(
+                              user.namaUser,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      FutureBuilder<User?>(
+                        future: _getUserData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text(
+                              "Loading Points...",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
+                            );
+                          } else if (snapshot.hasError || !snapshot.hasData) {
+                            return const Text(
+                              "0 Points",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
+                            );
+                          } else {
+                            final user = snapshot.data!;
+                            return Text(
+                              "${user.points} Points",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white70,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
+                ],
+              ),
+            ),
+          ),
+          // Section kedua untuk menu utama
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
-                // Section kedua untuk menu utama
-                Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: ListView(
-                      padding: const EdgeInsets.all(16.0),
-                      children: [
-                        const Text(
-                          "Account",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        buildCard(context, [
-                          buildListTile(
-                            context,
-                            icon: Icons.person_outline,
-                            title: "Edit profile",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditProfilePage(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildListTile(
-                            context,
-                            icon: Icons.location_pin,
-                            title: "Alamat",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AlamatPage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ]),
-                        const SizedBox(height: 20),
-                        const Text(
-                          "Support & About",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        buildCard(context, [
-                          buildListTile(
-                            context,
-                            icon: Icons.info_outline,
-                            title: "Panduan",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PanduanPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildListTile(
-                            context,
-                            icon: Icons.policy_outlined,
-                            title: "Syarat & Ketentuan",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SyaratKetentuanPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildListTile(
-                            context,
-                            icon: Icons.security_outlined,
-                            title: "Kebijakan Privasi",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => KebijakanPrivasiPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildListTile(
-                            context,
-                            icon: Icons.feedback_outlined,
-                            title: "Ulasan & Masukan",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UlasanMasukanPage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ]),
-                        const SizedBox(height: 20),
-                        const Text(
-                          "Other",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        buildCard(context, [
-                          buildListTile(
-                            context,
-                            icon: Icons.report_gmailerrorred_outlined,
-                            title: "Laporkan Masalah",
-                          ),
-                          const ListTile(
-                            leading:
-                                Icon(Icons.info_outline, color: Colors.grey),
-                            title: Text("Versi Aplikasi"),
-                            trailing: Text("beta 0.1"),
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.logout_outlined,
-                                color: Colors.red),
-                            title: const Text(
-                              "Log Out",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            onTap: () {
-                              showLogoutDialog(context);
-                            },
-                          ),
-                        ]),
-                      ],
+              ),
+              child: ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  const Text(
+                    "Account",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  buildCard(context, [
+                    buildListTile(
+                      context,
+                      icon: Icons.person_outline,
+                      title: "Edit profile",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfilePage(),
+                          ),
+                        ).then((_) => _refreshUserData());
+                      },
+                    ),
+                    buildListTile(
+                      context,
+                      icon: Icons.location_pin,
+                      title: "Alamat",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AlamatPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Support & About",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  buildCard(context, [
+                    buildListTile(
+                      context,
+                      icon: Icons.info_outline,
+                      title: "Panduan",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PanduanPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    buildListTile(
+                      context,
+                      icon: Icons.policy_outlined,
+                      title: "Syarat & Ketentuan",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SyaratKetentuanPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    buildListTile(
+                      context,
+                      icon: Icons.security_outlined,
+                      title: "Kebijakan Privasi",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => KebijakanPrivasiPage(),
+                          ),
+                        );
+                      },
+                    ),
+                    buildListTile(
+                      context,
+                      icon: Icons.feedback_outlined,
+                      title: "Ulasan & Masukan",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UlasanMasukanPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ]),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Other",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  buildCard(context, [
+                    buildListTile(
+                      context,
+                      icon: Icons.report_gmailerrorred_outlined,
+                      title: "Laporkan Masalah",
+                    ),
+                    const ListTile(
+                      leading: Icon(Icons.info_outline, color: Colors.grey),
+                      title: Text("Versi Aplikasi"),
+                      trailing: Text("beta 0.1"),
+                    ),
+                    ListTile(
+                      leading:
+                          const Icon(Icons.logout_outlined, color: Colors.red),
+                      title: const Text(
+                        "Log Out",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onTap: () {
+                        showLogoutDialog(context);
+                      },
+                    ),
+                  ]),
+                ],
+              ),
             ),
-            bottomNavigationBar: const CustomBottomNavBar(
-              currentIndex: 3,
-            ),
-          );
-        } else {
-          return const Center(
-            child: Text('Tidak Ada Data'),
-          );
-        }
-      },
+          ),
+        ],
+      ),
+      bottomNavigationBar: const CustomBottomNavBar(
+        currentIndex: 3,
+      ),
     );
   }
 
-  // Membuat widget Card untuk kategori menu
   Widget buildCard(BuildContext context, List<Widget> children) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -327,7 +369,6 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  // Membuat widget ListTile dengan ikon dan fungsi onTap
   Widget buildListTile(BuildContext context,
       {required IconData icon, required String title, VoidCallback? onTap}) {
     return ListTile(
@@ -338,7 +379,6 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  // Fungsi untuk menampilkan dialog logout
   void showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,

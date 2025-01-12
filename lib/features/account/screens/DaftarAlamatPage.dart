@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/AlamatService.dart';
+import 'package:flutter_recycle_hub/core/models/Alamat.dart';
+import 'TambahAlamatPage.dart';
 
 class AlamatPage extends StatefulWidget {
   const AlamatPage({super.key});
@@ -8,158 +12,141 @@ class AlamatPage extends StatefulWidget {
 }
 
 class _AlamatPageState extends State<AlamatPage> {
+  late Future<List<Alamat>> alamatList;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAlamat();
+  }
+
+  Future<void> _loadAlamat() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id');
+    if (userId != null) {
+      setState(() {
+        alamatList = AlamatService.getAlamatByUserId(userId);
+      });
+    } else {
+      print('User ID not found');
+      setState(() {
+        alamatList = Future.value([]);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF006769),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         title: const Text(
           'Daftar Alamat',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-      ),
-      body: Container(
-        color: Colors.white, // Set background to white
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Card untuk alamat utama
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              margin: const EdgeInsets.only(bottom: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black
-                        .withOpacity(0.3), // Shadow lebih tegas dan kasar
-                    offset:
-                        const Offset(3, 3), // Shadow hanya di kanan dan bawah
-                    spreadRadius:
-                        5, // Spread lebih besar untuk kesan lebih keras
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Row(
-                    children: [
-                      Text(
-                        'No. Ponsel: 085860346754',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        'Alamat Utama',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Jl. Jasmine, RT 002 / RW 003, No 90\nDESA MAJU MUNDUR',
-                    style: TextStyle(
-                      color: Colors.black87,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: true,
-                            onChanged: (bool? value) {},
-                            activeColor: Colors.blue,
-                          ),
-                          const Text("Jadikan Alamat Utama"),
-                        ],
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Fungsi untuk mengubah alamat
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(
-                              0xFF006769), // Menggunakan warna sesuai permintaan
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(
-                                color: Colors.black,
-                                width: 2), // Border hitam tegas
-                          ),
-                          elevation: 0, // Tidak ada elevasi (bayangan lembut)
-                        ),
-                        child: const Text(
-                          'Ubah',
-                          style: TextStyle(
-                            color:
-                                Colors.white, // Warna putih untuk teks tombol
-                            fontWeight: FontWeight.bold,
-                            letterSpacing:
-                                2, // Mempertegas teks dengan jarak antar huruf
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            // Tombol Tambahkan Alamat
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Fungsi untuk menambahkan alamat
-                  Navigator.pushNamed(context, '/tambah_alamat');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color(0xFF006769), // Warna sesuai dengan permintaan
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 0, // Tidak ada elevasi (bayangan lembut)
-                ),
-                child: const Text(
-                  'Tambahkan Alamat',
-                  style: TextStyle(
-                    color: Colors.white, // Warna putih untuk teks tombol
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing:
-                        2, // Mempertegas teks dengan jarak antar huruf
-                  ),
-                ),
-              ),
-            ),
-          ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
+      ),
+      body: FutureBuilder<List<Alamat>>(
+        future: alamatList,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Tidak ada alamat ditemukan.'));
+          } else {
+            final data = snapshot.data!;
+            return ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final alamat = data[index];
+                return AlamatCard(
+                  alamat: alamat,
+                  onEdit: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TambahAlamatPage(alamat: alamat.toJson()),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AlamatCard extends StatelessWidget {
+  final Alamat alamat;
+  final VoidCallback onEdit;
+
+  const AlamatCard({super.key, required this.alamat, required this.onEdit});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.only(bottom: 20.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: const Offset(3, -3),
+            spreadRadius: 2,
+            blurRadius: 6,
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            alamat.alamatLengkap ?? 'Alamat tidak tersedia',
+            style: const TextStyle(
+                color: Colors.black87, fontSize: 16, height: 1.5),
+          ),
+          const SizedBox(height: 10),
+          if (alamat.provinsi != null) Text('Provinsi: ${alamat.provinsi}'),
+          if (alamat.kabupatenKota != null)
+            Text('Kabupaten/Kota: ${alamat.kabupatenKota}'),
+          if (alamat.kecamatan != null) Text('Kecamatan: ${alamat.kecamatan}'),
+          if (alamat.desa != null) Text('Desa: ${alamat.desa}'),
+          if (alamat.kodePos != null) Text('Kode Pos: ${alamat.kodePos}'),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onEdit,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF006769),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(color: Colors.black, width: 2),
+              ),
+            ),
+            child: const Text(
+              'Ubah',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2),
+            ),
+          ),
+        ],
       ),
     );
   }
