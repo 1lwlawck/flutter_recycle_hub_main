@@ -59,6 +59,7 @@ dependencies:
   url_launcher: ^6.0.9
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.2
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
@@ -106,9 +107,11 @@ flutter:
     - assets/images/icons/tukarpoints.png
     - assets/images/icons/pet.png
     - assets/images/icons/chat-icon.png
+    - assets/images/icons/recyclehub_icon.png
 
     - assets/labels/labels.txt
     - assets/model/sampah.tflite
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

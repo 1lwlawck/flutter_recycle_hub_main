@@ -13,40 +13,42 @@ class _ChatbotpageState extends State<Chatbotpage> {
   final TextEditingController _controller = TextEditingController();
   final ChatbotService _chatbotService = ChatbotService();
 
-  int _chatbotMessageIndex = -1;
+  int? _chatbotMessageIndex; // Indeks untuk pesan chatbot
 
-  // Fungsi untuk mengirim pesan
   void _sendMessage() async {
     if (_controller.text.isNotEmpty) {
+      final userMessage = _controller.text; // Simpan teks input sebelum dihapus
+
       setState(() {
-        messages.add(_controller.text); // Menambah pesan dari pengguna ke chat
+        messages.add(userMessage); // Tambahkan pesan pengguna ke daftar
+        _controller.clear(); // Hapus teks dari TextField
       });
 
-      String response = await _chatbotService.sendMessage(_controller.text);
+      // Tunggu respons dari chatbot
+      String response = await _chatbotService.sendMessage(userMessage);
 
-      _chatbotMessageIndex = messages.length;
+      setState(() {
+        _chatbotMessageIndex = messages.length; // Simpan indeks untuk respons
+        messages.add(""); // Tambahkan placeholder untuk efek mengetik
+      });
 
+      // Gunakan efek mengetik untuk menampilkan respons
       _simulateTypingEffect(response);
-
-      _controller.clear(); // Menghapus teks setelah dikirim
     }
   }
 
-  // Fungsi untuk mensimulasikan efek mengetik (seperti GPT)
   void _simulateTypingEffect(String response) async {
-    String displayedText = "";
+    if (_chatbotMessageIndex == null) return; // Pastikan indeks valid
 
-    setState(() {
-      messages.add(""); // Menambahkan pesan chatbot kosong terlebih dahulu
-    });
+    String displayedText = "";
 
     for (int i = 0; i < response.length; i++) {
       displayedText += response[i];
+      await Future.delayed(const Duration(milliseconds: 50)); // Efek delay
+
       setState(() {
-        messages[_chatbotMessageIndex] = displayedText;
+        messages[_chatbotMessageIndex!] = displayedText; // Perbarui teks di UI
       });
-      await Future.delayed(
-          const Duration(milliseconds: 50)); // Penundaan antara karakter (50ms)
     }
   }
 
@@ -78,7 +80,6 @@ class _ChatbotpageState extends State<Chatbotpage> {
       ),
       body: Column(
         children: [
-          // Menampilkan pesan chat
           Expanded(
             child: ListView.builder(
               itemCount: messages.length,
@@ -91,6 +92,7 @@ class _ChatbotpageState extends State<Chatbotpage> {
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     child: Container(
+                      key: Key('chat_bubble_$index'),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 10),
                       decoration: BoxDecoration(
@@ -116,13 +118,13 @@ class _ChatbotpageState extends State<Chatbotpage> {
               },
             ),
           ),
-          // Input text field untuk mengirim pesan
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
+                    key: const Key('chat_input_field'),
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: 'Tanya seputar daur ulang...',
@@ -145,9 +147,9 @@ class _ChatbotpageState extends State<Chatbotpage> {
                   ),
                 ),
                 IconButton(
+                  key: const Key('send_button'),
                   icon: const Icon(Icons.send),
-                  onPressed:
-                      _sendMessage, // Panggil _sendMessage hanya sekali di sini
+                  onPressed: _sendMessage,
                   splashRadius: 20,
                   iconSize: 30,
                   color: Colors.black,

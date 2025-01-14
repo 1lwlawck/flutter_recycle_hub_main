@@ -52,38 +52,90 @@ class _AlamatPageState extends State<AlamatPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: FutureBuilder<List<Alamat>>(
-        future: alamatList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Tidak ada alamat ditemukan.'));
-          } else {
-            final data = snapshot.data!;
-            return ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final alamat = data[index];
-                return AlamatCard(
-                  alamat: alamat,
-                  onEdit: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            TambahAlamatPage(alamat: alamat.toJson()),
-                      ),
-                    );
-                  },
-                );
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<List<Alamat>>(
+              future: alamatList,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                      child: Text('Tidak ada alamat ditemukan.'));
+                } else {
+                  final data = snapshot.data!;
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final alamat = data[index];
+                      return AlamatCard(
+                        alamat: alamat,
+                        onEdit: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TambahAlamatPage(alamat: alamat.toJson()),
+                            ),
+                          ).then((value) {
+                            if (value == true)
+                              _loadAlamat(); // Refresh setelah edit
+                          });
+                        },
+                        onDelete: () async {
+                          final success =
+                              await AlamatService.deleteAlamat(alamat.id);
+                          if (success) {
+                            _loadAlamat(); // Refresh setelah hapus
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Gagal menghapus alamat')),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TambahAlamatPage(),
+                  ),
+                ).then((value) {
+                  if (value == true) _loadAlamat(); // Refresh setelah tambah
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF006769),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Tambah Alamat',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -92,8 +144,14 @@ class _AlamatPageState extends State<AlamatPage> {
 class AlamatCard extends StatelessWidget {
   final Alamat alamat;
   final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
-  const AlamatCard({super.key, required this.alamat, required this.onEdit});
+  const AlamatCard({
+    super.key,
+    required this.alamat,
+    required this.onEdit,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -128,23 +186,31 @@ class AlamatCard extends StatelessWidget {
           if (alamat.desa != null) Text('Desa: ${alamat.desa}'),
           if (alamat.kodePos != null) Text('Kode Pos: ${alamat.kodePos}'),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onEdit,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF006769),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: const BorderSide(color: Colors.black, width: 2),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: onEdit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF006769),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Ubah',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            child: const Text(
-              'Ubah',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2),
-            ),
+              const SizedBox(width: 10),
+              IconButton(
+                onPressed: onDelete,
+                icon: const Icon(Icons.delete, color: Colors.red),
+              ),
+            ],
           ),
         ],
       ),

@@ -12,34 +12,6 @@ class SplashScreen2 extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen2> {
   @override
-  void initState() {
-    super.initState();
-    // Delay 10 detik sebelum berpindah halaman ke LoginScreen dengan transisi geser
-    Future.delayed(const Duration(seconds: 6), () {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const LoginScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Arah transisi dari kanan ke kiri
-            const begin = Offset(1.0, 0.0); // Dari kanan ke kiri
-            const end = Offset.zero; // Posisi akhir transisi
-            const curve = Curves.easeInOut; // Untuk transisi yang smooth
-
-            var tween =
-                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
-
-            return SlideTransition(position: offsetAnimation, child: child);
-          },
-          transitionDuration: const Duration(
-              milliseconds: 1000), // Durasi transisi lebih smooth
-        ),
-      );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

@@ -46,7 +46,7 @@ class FillMessagePage extends StatelessWidget {
                 );
               },
               child: _buildMessageItem(
-                avatar: 'assets/images/icons/avatar.png', // Path avatar
+                avatar: 'assets/images/icons/pict_profile.png', // Path avatar
                 name: 'Bank Sampah Mawar Merah',
                 date: '8 Okt', // Tanggal
                 messagePreview:

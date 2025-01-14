@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/AlamatService.dart';
+import 'package:flutter_recycle_hub/utils/shared_prefs_util.dart';
 
 class TambahAlamatPage extends StatefulWidget {
   final Map<String, dynamic>? alamat; // Alamat yang dikirim untuk diubah
@@ -10,11 +12,12 @@ class TambahAlamatPage extends StatefulWidget {
 }
 
 class TambahAlamatPageState extends State<TambahAlamatPage> {
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController provinsiController = TextEditingController();
   final TextEditingController kabupatenController = TextEditingController();
   final TextEditingController kecamatanController = TextEditingController();
   final TextEditingController desaController = TextEditingController();
+  final TextEditingController latitudeController = TextEditingController();
+  final TextEditingController longitudeController = TextEditingController();
   final TextEditingController postalCodeController = TextEditingController();
   final TextEditingController fullAddressController = TextEditingController();
 
@@ -23,11 +26,12 @@ class TambahAlamatPageState extends State<TambahAlamatPage> {
     super.initState();
 
     if (widget.alamat != null) {
-      phoneController.text = widget.alamat?['nomor_hp'] ?? '';
       provinsiController.text = widget.alamat?['provinsi'] ?? '';
       kabupatenController.text = widget.alamat?['kabupaten_kota'] ?? '';
       kecamatanController.text = widget.alamat?['kecamatan'] ?? '';
       desaController.text = widget.alamat?['desa'] ?? '';
+      latitudeController.text = widget.alamat?['latitude']?.toString() ?? '';
+      longitudeController.text = widget.alamat?['longitude']?.toString() ?? '';
       postalCodeController.text = widget.alamat?['kode_pos'] ?? '';
       fullAddressController.text = widget.alamat?['alamat_lengkap'] ?? '';
     }
@@ -55,6 +59,68 @@ class TambahAlamatPageState extends State<TambahAlamatPage> {
     );
   }
 
+  Future<void> _saveAlamat() async {
+    final userId = await SharedPrefsUtil.getUserId();
+
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User ID not found, please login again.')),
+      );
+      return;
+    }
+
+    if (provinsiController.text.isEmpty ||
+        kabupatenController.text.isEmpty ||
+        kecamatanController.text.isEmpty ||
+        desaController.text.isEmpty ||
+        postalCodeController.text.isEmpty ||
+        fullAddressController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Semua field harus diisi.')),
+      );
+      return;
+    }
+
+    final alamatData = {
+      if (widget.alamat != null) 'id': widget.alamat!['id'],
+      'user_id': userId,
+      'provinsi': provinsiController.text,
+      'kabupaten_kota': kabupatenController.text,
+      'kecamatan': kecamatanController.text,
+      'desa': desaController.text,
+      'latitude': double.tryParse(latitudeController.text),
+      'longitude': double.tryParse(longitudeController.text),
+      'kode_pos': postalCodeController.text,
+      'alamat_lengkap': fullAddressController.text,
+    };
+
+    final success = await AlamatService.saveAlamat(alamatData);
+
+    if (success) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Berhasil'),
+          content: const Text('Alamat berhasil ditambahkan!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Tutup dialog
+                Navigator.pop(
+                    context, true); // Kembali ke halaman daftar alamat
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal menyimpan alamat')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +133,9 @@ class TambahAlamatPageState extends State<TambahAlamatPage> {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
-          'Edit Alamat',
-          style: TextStyle(
+        title: Text(
+          widget.alamat != null ? 'Edit Alamat' : 'Tambah Alamat',
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -102,6 +168,18 @@ class TambahAlamatPageState extends State<TambahAlamatPage> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: latitudeController,
+              decoration: inputDecoration("Latitude"),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: longitudeController,
+              decoration: inputDecoration("Longitude"),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: postalCodeController,
               decoration: inputDecoration("Kode Pos"),
               keyboardType: TextInputType.number,
@@ -118,7 +196,7 @@ class TambahAlamatPageState extends State<TambahAlamatPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _saveAlamat,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF006769),
                   padding: const EdgeInsets.symmetric(vertical: 20),

@@ -9,7 +9,7 @@ class UserProvider extends ChangeNotifier {
   User? get user => _user;
 
   Future<void> fetchUser() async {
-    if (_user != null) return; // Cegah reload berulang
+    if (_user != null) return;
 
     final userId = await SharedPrefsUtil.getUserId();
     if (userId == null) return;

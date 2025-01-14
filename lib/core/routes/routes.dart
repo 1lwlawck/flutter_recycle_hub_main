@@ -9,7 +9,6 @@ import 'package:flutter_recycle_hub/features/orders/screens/OrderFillPage.dart';
 import 'package:flutter_recycle_hub/features/history/screens/HistoryEmptyPage.dart';
 import 'package:flutter_recycle_hub/features/dropoff/screens/main/DropOffPage.dart';
 import 'package:flutter_recycle_hub/features/orders/screens/OrderRincianPage.dart';
-import 'package:flutter_recycle_hub/splash/FirstSplash.dart';
 import 'package:flutter_recycle_hub/splash/SecondSplash.dart';
 import '../../features/auth/screens/LoginUserPage.dart';
 import '../../features/auth/screens/RegisterUserPage.dart';
@@ -19,11 +18,11 @@ import '../../features/history/screens/HistoryRincianPage.dart';
 import '../../features/messages/screens/MessageEmptyPage.dart';
 import '../../features/messages/screens/MessageFillPage.dart';
 import '../../features/messages/screens/MessagePage.dart';
+import '../../features/account/screens/EditProfilePage.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return {
-    '/': (BuildContext context) => SplashScreen(),
-    '/splash2': (BuildContext context) => SplashScreen2(),
+    '/': (BuildContext context) => SplashScreen2(),
 
     // Auth
     '/login': (BuildContext context) => const LoginScreen(),
@@ -58,5 +57,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     // Account
     '/account': (BuildContext context) => AccountPage(),
     '/tambah_alamat': (BuildContext context) => TambahAlamatPage(),
+    '/edit_profile': (BuildContext context) => EditProfilePage(),
   };
 }

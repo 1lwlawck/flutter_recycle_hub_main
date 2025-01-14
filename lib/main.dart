@@ -12,9 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.green),
+      theme: ThemeData(primarySwatch: Colors.blue),
       onGenerateRoute: (settings) {
-        WidgetBuilder builder = getAppRoutes()[settings.name]!;
+        WidgetBuilder? builder = getAppRoutes()[settings.name];
+        if (builder == null) {
+          return null;
+        }
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               builder(context),

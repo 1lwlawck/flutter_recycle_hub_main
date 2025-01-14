@@ -7,6 +7,11 @@ class SharedPrefsUtil {
   static const String accessTokenKey = 'access_token';
   static const String refreshTokenKey = 'refresh_token';
 
+  // Fungsi untuk inisialisasi SharedPreferences
+  static Future<void> initSharedPrefs() async {
+    await SharedPreferences.getInstance();
+  }
+
   // Simpan User ID
   static Future<void> saveUserId(int userId) async {
     final prefs = await SharedPreferences.getInstance();

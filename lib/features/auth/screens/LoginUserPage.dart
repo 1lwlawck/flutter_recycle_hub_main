@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // Fungsi untuk membuka URL lupa kata sandi
   Future<void> openForgotPasswordLink() async {
     final Uri forgotPasswordUri =
-        Uri.parse('http://192.168.1.9:5000/password/forgot');
+        Uri.parse('https://recyclehub.cretv.xyz/password/forgot');
 
     if (!await launchUrl(forgotPasswordUri)) {
       throw 'Tidak dapat membuka URL: $forgotPasswordUri';
@@ -134,12 +134,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               _buildInputField(
+                key: const Key('email'),
                 controller: emailController,
                 label: 'Masukan Email',
                 errorText: emailError,
               ),
               const SizedBox(height: 16),
               _buildInputField(
+                key: const Key('password'),
                 controller: passwordController,
                 label: 'Masukan Kata Sandi',
                 obscureText: true,
@@ -206,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
     required String label,
     String? errorText,
     bool obscureText = false,
+    required Key key,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

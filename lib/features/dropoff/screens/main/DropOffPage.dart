@@ -158,7 +158,7 @@ class _DropOffPageState extends State<DropOffPage>
               ),
               const SizedBox(height: 8),
               _buildPlasticTypeTile(
-                'High Density Polyethylene (HDPE)',
+                'Botol Plastik',
                 hdpeSelected,
                 (value) {
                   setState(() {
@@ -167,7 +167,7 @@ class _DropOffPageState extends State<DropOffPage>
                 },
               ),
               _buildPlasticTypeTile(
-                'Polyethylene Terephthalate (PET)',
+                'Gelas Plastik',
                 petSelected,
                 (value) {
                   setState(() {
@@ -176,7 +176,7 @@ class _DropOffPageState extends State<DropOffPage>
                 },
               ),
               _buildPlasticTypeTile(
-                'Polypropylene (PP)',
+                'Kardus',
                 ppSelected,
                 (value) {
                   setState(() {

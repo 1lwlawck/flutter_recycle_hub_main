@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // Logo
             Image.asset(
-              'assets/images/icons/recycle_hub.png', // Sesuaikan path logo kamu
+              'assets/images/icons/recycle_hub.png',
               width: 400,
               height: 400,
             ),
