@@ -37,7 +37,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         Navigator.pushReplacementNamed(context, '/orders');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/fill-messages');
+        Navigator.pushReplacementNamed(context, '/articles');
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/account');
@@ -119,7 +119,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                   activeIcon: _buildIcon(
                       'assets/images/icons/svg/message_icon.svg',
                       isSelected: true),
-                  label: "Messages",
+                  label: "Articles",
                 ),
                 BottomNavigationBarItem(
                   icon: _buildIcon('assets/images/icons/svg/user_icon.svg',

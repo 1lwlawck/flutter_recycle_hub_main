@@ -15,9 +15,7 @@ import '../../features/auth/screens/RegisterUserPage.dart';
 import '../../features/home/screens/Homepage.dart';
 import '../../features/account/screens/main/AccountPage.dart';
 import '../../features/history/screens/HistoryRincianPage.dart';
-import '../../features/messages/screens/MessageEmptyPage.dart';
-import '../../features/messages/screens/MessageFillPage.dart';
-import '../../features/messages/screens/MessagePage.dart';
+import '../../features/article/screens/ArticleListPage.dart';
 import '../../features/account/screens/EditProfilePage.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
@@ -49,10 +47,8 @@ Map<String, WidgetBuilder> getAppRoutes() {
     '/empty-history': (BuildContext context) => OrderHistoryPage(),
     '/rincian-history': (BuildContext context) => RincianHistoryPage(),
 
-    // Message
-    '/empty-messages': (BuildContext context) => const EmptyMessagePage(),
-    '/fill-messages': (BuildContext context) => const FillMessagePage(),
-    '/message': (BuildContext context) => const MessagePage(),
+    // Article
+    '/articles': (BuildContext context) => const ArticleListPage(),
 
     // Account
     '/account': (BuildContext context) => AccountPage(),

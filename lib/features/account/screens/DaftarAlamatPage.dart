@@ -82,8 +82,9 @@ class _AlamatPageState extends State<AlamatPage> {
                                   TambahAlamatPage(alamat: alamat.toJson()),
                             ),
                           ).then((value) {
-                            if (value == true)
+                            if (value == true) {
                               _loadAlamat(); // Refresh setelah edit
+                            }
                           });
                         },
                         onDelete: () async {
