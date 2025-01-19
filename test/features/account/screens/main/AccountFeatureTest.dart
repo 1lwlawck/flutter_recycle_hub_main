@@ -9,7 +9,6 @@ import 'package:flutter_recycle_hub/features/account/screens/UlasanMasukanPage.d
 
 void main() {
   setUpAll(() {
-    // Pastikan pengaturan HTTP tidak dicegah selama pengujian
     HttpOverrides.global = null;
   });
 

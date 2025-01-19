@@ -65,8 +65,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         message = responseMessage;
         if (responseMessage == 'OTP telah dikirim ke email Anda.') {
-          otpSent = true; // Menandakan bahwa OTP sudah dikirim
-          // Kosongkan semua TextField
+          otpSent = true;
+
           namaController.clear();
           emailController.clear();
           passwordController.clear();
